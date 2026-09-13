@@ -10,6 +10,30 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 
+// Structured HTTP request logging
+app.use((req, res, next) => {
+  const start = process.hrtime.bigint();
+
+  res.on("finish", () => {
+    const duration = Number(process.hrtime.bigint() - start) / 1e6;
+
+    console.log(
+      JSON.stringify({
+        timestamp: new Date().toISOString(),
+        level: "info",
+        service: "epicbook-app",
+        event: "http_request",
+        method: req.method,
+        path: req.originalUrl,
+        status: res.statusCode,
+        duration_ms: Number(duration.toFixed(3)),
+      })
+    );
+  });
+
+  next();
+});
+
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
 
@@ -29,6 +53,14 @@ app.use("/gallery", require("./routes/html-routes"));
 
 db.sequelize.sync().then(function () {
   app.listen(PORT, function () {
-    console.log("App listening on PORT " + PORT);
+    console.log(
+  JSON.stringify({
+    timestamp: new Date().toISOString(),
+    level: "info",
+    service: "epicbook-app",
+    event: "server_started",
+    port: PORT,
+  })
+);
   });
 });
