@@ -72,6 +72,46 @@ The EpicBook application and MySQL database communicate internally through the D
 
 ---
 
+## Deployment Screenshots
+
+### Live EpicBook Application
+
+The EpicBook application running publicly on the AWS EC2 instance through the Nginx reverse proxy.
+
+![Live EpicBook Application](images/epic%20homepage.png)
+
+---
+
+### Healthy Docker Compose Stack
+
+The EpicBook application and MySQL database are passing their configured health checks, while Nginx is running as the public-facing reverse proxy.
+
+![Healthy Docker Containers](images/health%20container.png)
+
+---
+
+### Nginx Structured Logging
+
+Nginx access logs are emitted in structured JSON format, including the request method, URI, HTTP status, request time, upstream address, and other operational information.
+
+![Nginx Structured Logs](images/nginx%20logs.png)
+
+---
+
+### EpicBook Structured Application Logs
+
+The Node.js application emits structured request logs containing the timestamp, service name, HTTP method, request path, response status, and request duration.
+
+![EpicBook Structured Application Logs](images/epic%20app%20logs.png)
+
+---
+
+### Database Persistence Test
+
+Database persistence was verified by recording the number of books and authors, removing and recreating the containers, and confirming that the same records remained available through the persistent MySQL Docker volume.
+
+![Database Persistence Test](images/persistence%20test.png)
+
 ## Technologies Used
 
 - AWS EC2
